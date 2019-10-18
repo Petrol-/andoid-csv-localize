@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AndroidCSVLocalize
 {
@@ -6,7 +8,13 @@ namespace AndroidCSVLocalize
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            new ServiceCollection()
+                .AddLogging(configure =>configure.AddConsole())
+                .AddSingleton<Application>()
+                // Add other dependencies here ...
+                .BuildServiceProvider()
+                .GetService<Application>()
+                .Run(args);
         }
     }
 }
