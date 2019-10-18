@@ -24,7 +24,7 @@ namespace AndroidCSVLocalize.Core.Tests
         {
             var csvreader = new CsvReader(_loggerMock);
 
-            Assert.Throws<ArgumentException>(() => csvreader.Parse(null));
+            Assert.Throws<ArgumentException>(() => csvreader.ParseFile(null));
         }
         [Test]
         public void Parse_Given_AFileThatDoesNotExists_Expect_ArgumentException()
