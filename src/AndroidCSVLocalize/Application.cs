@@ -7,17 +7,19 @@ namespace AndroidCSVLocalize
     public class Application
     {
         private readonly ILogger<Application> _logger;
+        private readonly IReader _reader;
 
-        public Application(ILogger<Application> logger)
+        public Application(ILogger<Application> logger, IReader reader)
         {
             _logger = logger;
+            _reader = reader;
         }
         public void Run(string[] args)
         {
             try
             {
                 var parameters = ParseArguments(args);
-
+                var localeRes = _reader.ParseFile(parameters.InFilePath);
             }
             catch (ArgumentException ex)
             {

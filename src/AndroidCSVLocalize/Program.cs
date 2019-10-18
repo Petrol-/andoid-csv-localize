@@ -1,4 +1,5 @@
 ﻿using System;
+using AndroidCSVLocalize.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +12,7 @@ namespace AndroidCSVLocalize
             new ServiceCollection()
                 .AddLogging(configure =>configure.AddConsole())
                 .AddSingleton<Application>()
-                // Add other dependencies here ...
+                .AddTransient<IReader, CsvReader>()
                 .BuildServiceProvider()
                 .GetService<Application>()
                 .Run(args);
