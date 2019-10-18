@@ -36,7 +36,7 @@ namespace AndroidCSVLocalize.Core.Tests
         [Test]
         public void ParseHeader_GivenStreamWith3Cols_Expect_2Locales()
         {
-            var csvStr = "key;values;values-fr-rFR";
+            var csvStr = "key\tvalues\tvalues-fr-rFR";
             CsvHeader csvHeader;
             using (var ms = CreateMemoryStreamWithLines(new List<string> { csvStr }))
             {
@@ -64,8 +64,8 @@ namespace AndroidCSVLocalize.Core.Tests
         {
             var lines = new[]
             {
-                "key1;english",
-                "key2;hello"
+                "key1\tenglish",
+                "key\t;hello"
             };
             var csvReader = new CsvReader(_loggerMock);
             IList<LocaleRes> localeResources = new List<LocaleRes>()
@@ -87,8 +87,8 @@ namespace AndroidCSVLocalize.Core.Tests
         {
             var lines = new[]
             {
-                "key1;english",
-                "key2;"
+                "key1\tenglish",
+                "key2\t"
             };
             var csvReader = new CsvReader(_loggerMock);
             IList<LocaleRes> localeResources = new List<LocaleRes>()
@@ -110,8 +110,8 @@ namespace AndroidCSVLocalize.Core.Tests
         {
             var lines = new[]
             {
-                "key1;english;french",
-                "key2;hello;"
+                "key1\tenglish\tfrench",
+                "key2\thello\t"
             };
             var csvReader = new CsvReader(_loggerMock);
             IList<LocaleRes> localeResources = new List<LocaleRes>()
@@ -135,7 +135,7 @@ namespace AndroidCSVLocalize.Core.Tests
         {
             var lines = new[]
             {
-                "key;values",
+                "key\tvalues",
             };
             var csvReader = new CsvReader(_loggerMock);
             IList<LocaleRes> resources;
@@ -154,7 +154,7 @@ namespace AndroidCSVLocalize.Core.Tests
         {
             var lines = new[]
             {
-                "key;values;values-fr",
+                "key\tvalues\tvalues-fr",
             };
             var csvReader = new CsvReader(_loggerMock);
             IList<LocaleRes> resources;

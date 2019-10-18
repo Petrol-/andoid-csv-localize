@@ -9,7 +9,7 @@ namespace AndroidCSVLocalize.Core
 {
     public class CsvReader : IReader
     {
-        private const char ColSeparator = ';';
+        private const char ColSeparator = '\t';
         private const int KeyIndex = 0;
         private readonly ILogger<CsvReader> _logger;
 
@@ -91,7 +91,6 @@ namespace AndroidCSVLocalize.Core
                         res.Resources.Add(new LocalizedValue(key, value));
                 }
             }
-
             return resources;
         }
 
