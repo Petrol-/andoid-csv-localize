@@ -18,15 +18,20 @@ namespace AndroidCSVLocalize.Core
             _logger = logger;
         }
 
-        public IList<LocaleRes> Parse(string filePath)
+        public IList<LocaleRes> ParseFile(string filePath)
         {
             ThrowOnInvalidFile(filePath);
-            using (var sr = new StreamReader(filePath, Encoding.GetEncoding(1252)))
+            using (var sr = new StreamReader(filePath))
             {
-                var header = ParseHeader(sr);
-
+                return Parse(sr);
             }
-            return null;
+
+        }
+        public IList<LocaleRes> Parse(StreamReader sr)
+        {
+                var header = ParseHeader(sr);
+                var resources = CreateLocaleResFromHeader(header);
+                return ParseBody(resources, sr);
         }
 
         private void ThrowOnInvalidFile(string filePath)
@@ -50,7 +55,7 @@ namespace AndroidCSVLocalize.Core
 
         private string[] SplitLine(string line)
         {
-            return line.Split(ColSeparator);
+            return line?.Split(ColSeparator);
         }
 
         public CsvHeader ParseHeader(StreamReader sr)
@@ -71,6 +76,33 @@ namespace AndroidCSVLocalize.Core
             {
                 CsvIndex = keyValue.Key
             }).ToList();
+        }
+
+        public IList<LocaleRes> ParseBody(IList<LocaleRes> resources, StreamReader sr)
+        {
+            string[] line;
+            while ((line = ReadNextLine(sr)) != null)
+            {
+                var key = GetKey(line);
+                foreach (var res in resources)
+                {
+                    var value = GetValue(res.CsvIndex, line);
+                    if (!string.IsNullOrEmpty(value))
+                        res.Resources.Add(new LocalizedValue(key, value));
+                }
+            }
+
+            return resources;
+        }
+
+        private string GetKey(string[] line)
+        {
+            return line[KeyIndex];
+        }
+
+        private string GetValue(int index, string[] values)
+        {
+            return values[index];
         }
     }
 }

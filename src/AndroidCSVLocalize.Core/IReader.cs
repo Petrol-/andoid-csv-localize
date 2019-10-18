@@ -5,6 +5,7 @@ namespace AndroidCSVLocalize.Core
 {
     public interface IReader
     {
-        IList<LocaleRes> Parse(string filePath);
+        IList<LocaleRes> Parse(StreamReader sr);
+        IList<LocaleRes> ParseFile(string filePath);
     }
 }
