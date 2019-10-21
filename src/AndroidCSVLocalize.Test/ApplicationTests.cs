@@ -17,7 +17,8 @@ namespace AndroidCSVLocalize.Tests
         {
             var loggerMock = new Mock<ILogger<Application>>();
             var readerMock = new Mock<IReader>();
-            var application = new Application(loggerMock.Object,readerMock.Object);
+            var writerMock = new Mock<IResourceWriter>();
+            var application = new Application(loggerMock.Object,readerMock.Object, writerMock.Object);
             var args = new[] { "toto", "toto" };
 
             Assert.DoesNotThrow(() => application.Run(args));

@@ -21,7 +21,7 @@ namespace AndroidCSVLocalize.Core
         public IList<LocaleRes> ParseFile(string filePath)
         {
             ThrowOnInvalidFile(filePath);
-            using (var sr = new StreamReader(filePath))
+            using (var sr = new StreamReader(filePath, Encoding.UTF8))
             {
                 return Parse(sr);
             }
@@ -29,9 +29,9 @@ namespace AndroidCSVLocalize.Core
         }
         public IList<LocaleRes> Parse(StreamReader sr)
         {
-                var header = ParseHeader(sr);
-                var resources = CreateLocaleResFromHeader(header);
-                return ParseBody(resources, sr);
+            var header = ParseHeader(sr);
+            var resources = CreateLocaleResFromHeader(header);
+            return ParseBody(resources, sr);
         }
 
         private void ThrowOnInvalidFile(string filePath)
@@ -50,7 +50,8 @@ namespace AndroidCSVLocalize.Core
 
         private string[] ReadNextLine(TextReader sr)
         {
-            return SplitLine(sr.ReadLine());
+            var line = sr.ReadLine();
+            return SplitLine(line);
         }
 
         private string[] SplitLine(string line)
@@ -81,9 +82,16 @@ namespace AndroidCSVLocalize.Core
         public IList<LocaleRes> ParseBody(IList<LocaleRes> resources, StreamReader sr)
         {
             string[] line;
+            var expectedSize = resources.Count + 1;
             while ((line = ReadNextLine(sr)) != null)
             {
                 var key = GetKey(line);
+                if (line.Length != expectedSize)
+                {
+                    _logger.LogError($"Malformed line for Key {key}. Line has {line.Length} elements but {expectedSize} are expected");
+                    continue;
+                }
+
                 foreach (var res in resources)
                 {
                     var value = GetValue(res.CsvIndex, line);

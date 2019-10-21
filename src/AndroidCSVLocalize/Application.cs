@@ -8,11 +8,13 @@ namespace AndroidCSVLocalize
     {
         private readonly ILogger<Application> _logger;
         private readonly IReader _reader;
+        private readonly IResourceWriter _writer;
 
-        public Application(ILogger<Application> logger, IReader reader)
+        public Application(ILogger<Application> logger, IReader reader, IResourceWriter writer)
         {
             _logger = logger;
             _reader = reader;
+            _writer = writer;
         }
         public void Run(string[] args)
         {
@@ -20,6 +22,7 @@ namespace AndroidCSVLocalize
             {
                 var parameters = ParseArguments(args);
                 var localeRes = _reader.ParseFile(parameters.InFilePath);
+                _writer.WriteResources(localeRes, parameters.OutDirectory);
             }
             catch (ArgumentException ex)
             {
