@@ -6,7 +6,7 @@ namespace AndroidCSVLocalize.Core
     public class ResourceWriter : IResourceWriter
     {
 
-        public const string StringFileName = "string.xml";
+        public const string StringFileName = "strings.xml";
         public void WriteResources(IList<LocaleRes> resources, string outDirectory)
         {
             foreach (var res in resources)
