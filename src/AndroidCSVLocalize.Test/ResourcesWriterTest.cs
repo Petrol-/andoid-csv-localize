@@ -11,7 +11,7 @@ namespace AndroidCSVLocalize.Test
         [Test]
         public void ReplaceSpecialChar_GivenCharToReplace_Expect_Char_Replaced()
         {
-            var writer = new ResourceWriter();
+            var writer = new AndroidResourceWriter();
 
             Assert.AreEqual("&#38;", writer.ReplaceSpecialChar("&"));
         }

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace AndroidCSVLocalize.Core
 {
-    public class ResourceWriter : IResourceWriter
+    public class AndroidResourceWriter : IResourceWriter
     {
 
         public const string StringFileName = "strings.xml";

@@ -13,7 +13,7 @@ namespace AndroidCSVLocalize
                 .AddLogging(configure =>configure.AddConsole())
                 .AddSingleton<Application>()
                 .AddTransient<IReader, CsvReader>()
-                .AddTransient<IResourceWriter, ResourceWriter>()
+                .AddTransient<IResourceWriter, JsonMailWriter>()
                 .BuildServiceProvider()
                 .GetService<Application>()
                 .Run(args);
